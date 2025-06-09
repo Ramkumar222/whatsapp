@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import SaveContact from './savecontact';
+import Window from './Window';
 
 const contactsData = [
     { id: 1, name: 'Alice', avatar: '🧑‍🦰' },
@@ -19,14 +20,12 @@ export default function Chat() {
     const [contacts] = useState(contactsData);
     const [selectedContact, setSelectedContact] = useState(contacts[0]);
     const [messages, setMessages] = useState(initialMessages);
-    const [input, setInput] = useState('');
+    const [chatId, setChatId] = useState('');
     const [saveContact, setSaveContact] = useState(false);
+    const [msgmodel, setmsgModel] = useState(false);
 
     useEffect(() => {
-        
-            
             getcontacts();
-        
     },[]);
 
     const getcontacts = async () => {
@@ -42,37 +41,42 @@ export default function Chat() {
         if (response.ok) {
             const data = await response.json();
             setSavedContacts(data);
-            console.log(data);
         } else {
             console.error('Failed to fetch contacts');
         }
     }
-
+  
     const logout = () => {
         localStorage.removeItem('userId');
         localStorage.removeItem('userName');
         window.location.href = '/';
     };
     
-    const handleContactClick = (contact) => {
-        setSelectedContact(contact);
+    const handleContactClick = (e,contact) => {
+        setmsgModel(!e);
+        const userId = localStorage.getItem('userId').toString();
+        const contactId = contact.userId.toString();
+        localStorage.setItem('receiverId', contact.userId);
+        const finalchatId=[userId,contactId].sort();
+        setChatId(finalchatId[0]+ finalchatId[1]);
+        setmsgModel(e);
     };
 
     const model =(e)=>{
         setSaveContact(e);
     };
 
-    const handleSend = () => {
-        if (!input.trim()) return;
-        setMessages((prev) => ({
-            ...prev,
-            [selectedContact.id]: [
-                ...(prev[selectedContact.id] || []),
-                { from: 'You', text: input },
-            ],
-        }));
-        setInput('');
-    };
+    // const handleSend = () => {
+    //     if (!input.trim()) return;
+    //     setMessages((prev) => ({
+    //         ...prev,
+    //         [selectedContact.id]: [
+    //             ...(prev[selectedContact.id] || []),
+    //             { from: 'You', text: input },
+    //         ],
+    //     }));
+    //     setInput('');
+    // };
 
     return (
         <div style={{ display: 'flex', height: '500px', border: '1px solid #ccc' }}>
@@ -83,11 +87,10 @@ export default function Chat() {
                 <button  type="button" class="btn btn-primary" onClick={(e)=>{setSaveContact(e)}}>add contact</button>
                  <button  type="button" class="btn btn-primary" onClick={(e)=>{logout()}}>logout</button>
                 {saveContact && <SaveContact model={model}>save contact</SaveContact>}
-                {console.log(localStorage.getItem('userId'))}
                 {savedContacts.map((contact) => (
                     <div
                         key={contact.userId}
-                        onClick={() => handleContactClick(contact)}
+                        onClick={(e) => {handleContactClick(e,contact)}}
                         style={{
                             padding: '10px',
                             cursor: 'pointer',
@@ -103,7 +106,7 @@ export default function Chat() {
             </div>
 
             {/* Chat Window */}
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+            {/* <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                 <div style={{ padding: '10px', borderBottom: '1px solid #eee', background: '#fafafa' }}>
                     <strong>{selectedContact.name}</strong>
                 </div>
@@ -128,7 +131,9 @@ export default function Chat() {
                     />
                     <button onClick={handleSend} style={{ padding: '8px 16px' }}>Send</button>
                 </div>
-            </div>
+            </div> */}
+
+            {msgmodel && <Window chatId={chatId} />}
         </div>
     );
 }

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Login = () => {
     const [form, setForm] = useState({ email: '', password: '' });
     const [error, setError] = useState('');
+
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -26,12 +27,14 @@ const Login = () => {
             if(data){
                 localStorage.setItem('userId', data.userId);
                 localStorage.setItem('userName', data.userName);
+                if(localStorage.getItem('userId')!== null && localStorage.getItem('userName')!== null){
                 window.location.href = '/chat';
             } else {
                 setError(data.error || 'Login failed.');
             }
+            }
         }
-        }
+    }
         catch(err){
             setError('Network error. Please try again.');
         }
