@@ -1,11 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import SockJS from 'sockjs-client';
 import {Client} from '@stomp/stompjs';
-const msg=[
-    { from: 'Alice', text: 'Hi there!' },
-    { from: 'Bob', text: 'Hello!' },
-    { from: 'Charlie', text: 'Hey!' },
-]
+
 function Window({chatId}) {
     const [getAllMessages,setAllMessages] =useState([]);
     const [messages, setMessages] = useState();

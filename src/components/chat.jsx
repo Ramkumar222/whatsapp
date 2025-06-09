@@ -2,24 +2,11 @@ import React, { useEffect, useState } from 'react';
 import SaveContact from './savecontact';
 import Window from './Window';
 
-const contactsData = [
-    { id: 1, name: 'Alice', avatar: '🧑‍🦰' },
-    { id: 2, name: 'Bob', avatar: '🧑‍🦱' },
-    { id: 3, name: 'Charlie', avatar: '🧑‍🦳' },
-    { id: 3, name: 'John', avatar: '🧑‍🦳' },
-];
 
-const initialMessages = {
-    1: [{ from: 'Alice', text: 'Hi there!' }],
-    2: [{ from: 'Bob', text: 'Hello!' }],
-    3: [{ from: 'Charlie', text: 'Hey!' }],
-};
+
 
 export default function Chat() {
     const [savedContacts, setSavedContacts] = useState([]);
-    const [contacts] = useState(contactsData);
-    const [selectedContact, setSelectedContact] = useState(contacts[0]);
-    const [messages, setMessages] = useState(initialMessages);
     const [chatId, setChatId] = useState('');
     const [saveContact, setSaveContact] = useState(false);
     const [msgmodel, setmsgModel] = useState(false);
@@ -94,7 +81,6 @@ export default function Chat() {
                         style={{
                             padding: '10px',
                             cursor: 'pointer',
-                            background: selectedContact.userId === contact.userId ? '#f0f0f0' : 'transparent',
                             display: 'flex',
                             alignItems: 'center',
                         }}
