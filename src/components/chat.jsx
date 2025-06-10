@@ -66,9 +66,9 @@ export default function Chat() {
     // };
 
     return (
-        <div style={{ display: 'flex', height: '500px', border: '1px solid #ccc' }}>
+        <div style={{ display: 'flex', height: '650px', border: '1px solid #ccc' }}>
             {/* Contacts List */}
-            <div style={{ width: '200px', borderRight: '1px solid #eee', overflowY: 'auto' }}>
+            <div style={{ width: '300px', borderRight: '1px solid #eee', overflowY: 'auto' }}>
                 <h1>Hi {localStorage.getItem('userName')}</h1>
                 <h3 style={{ textAlign: 'center' }}>Contacts</h3>
                 <button  type="button" class="btn btn-primary" onClick={(e)=>{setSaveContact(e)}}>add contact</button>

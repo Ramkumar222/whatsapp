@@ -28,7 +28,12 @@ function Window({chatId}) {
                 console.error('Error fetching messages:', error);
             }
         };
+        setTimeout(() => {
         fetchMessages();
+            // const msgelement = document?.querySelector('.message');
+            // (msgelement[msgelement.length])?.focus();
+            // console.log('Messages fetched',msgelement[msgelement.length-1]);
+        }, 1000);
     }, [chatId,update]);
 
     useEffect(() => {  
@@ -78,21 +83,24 @@ function Window({chatId}) {
         stompClientRef.current.publish(
             { destination: '/app/chat', body: JSON.stringify(msg) }
         );
-        setUpdate(e)
+        setUpdate(message)
     }
     
 console.log(getAllMessages);
   return (<>
-    <div className='msg-window'>
+  <div>
+    <div className='msg-window' style={{height: '580px', overflowY: 'auto',width: '800px'}}>
       {getAllMessages.map((message, index) => (
         <div key={index} className='message'>
           <strong>{message.senderName}:</strong> {message.messageValue}
         </div>
       ))}
+      
     </div>
-    <div className='msg-input'>
-      <input type='text' placeholder='Type a message...' value={messages} onChange={(e)=> setMessages(e.target.value)}/>
+    <div className='msg-input'style={{  marginTop:'565x',height: '80px',paddingTop: '10px',display: 'flex',justifyContent: 'space-between',alignItems: 'center'}}>
+      <input style={{width:'750px'}}type='text' placeholder='Type a message...' value={messages} onChange={(e)=> setMessages(e.target.value)}/>
       <button onClick={(e) => sendmessage(e,messages)}>Send</button>
+    </div>
     </div>
     </>
   )

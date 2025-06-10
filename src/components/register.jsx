@@ -53,6 +53,10 @@ const Register = () => {
             setError("Passwords do not match.");
             return;
         }
+        if (form.name.length > 20) {
+            setError("name must sould be less than 20 char characters long.");
+            return;
+        }
         // Submit registration logic here
         
 
