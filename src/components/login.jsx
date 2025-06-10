@@ -1,9 +1,10 @@
 import React, {  useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
     const [form, setForm] = useState({ email: '', password: '' });
     const [error, setError] = useState('');
-
+    
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -74,6 +75,8 @@ const Login = () => {
                     style={styles.input}
                 />
                 <button type="submit" style={styles.button}>Login</button>
+            <a href="/register" style={{ textDecoration: 'none', color: '#25d366', marginBottom: '1rem' }}>Register</a>
+
             </form>
         </div>
     );
